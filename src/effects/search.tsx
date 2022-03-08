@@ -5,7 +5,6 @@ import { BASE_URL } from "../common/url"
 import { isPost, Post } from "../units/post"
 import { isTopic, Topic } from "../units/topic"
 import { isArray, isObject } from "../common/type-checks"
-import { title } from "process"
 
 
 export type Query = {}
@@ -26,6 +25,7 @@ export default function useSearch(query?: Query) {
       try {
         const q = "after:2015-01-01 order:latest"
         const results = await fetch(`${BASE_URL}/search.json?q=${encodeURIComponent(q)}`).then(a => a.json())
+
         if (!isObject(results)) throw new Error("Unexpected response from search")
 
         const posts: Post[] = isArray(results.posts)

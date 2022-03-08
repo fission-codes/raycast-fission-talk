@@ -2,25 +2,36 @@ import { List, showToast, Toast } from "@raycast/api"
 import { useEffect } from "react"
 
 import { TopicListItem } from "./components/TopicListItem"
+import useCategories from "./effects/categories"
 import useSearch from "./effects/search"
 
 
 export default function Command() {
-  const state = useSearch()
+  const cats = useCategories()
+  const search = useSearch()
 
   useEffect(() => {
-    if (state.error) {
+    if (cats.error) {
       showToast({
         style: Toast.Style.Failure,
-        title: "Failed loading stories",
-        message: state.error.message,
+        title: "Failed loading categories",
+        message: cats.error.message,
+      })
+    } else if (search.error) {
+      showToast({
+        style: Toast.Style.Failure,
+        title: "Failed loading search results",
+        message: search.error.message,
       })
     }
-  }, [ state.error ])
+  }, [ search.error, cats.error ])
+
+  const isLoadingCategories = !cats.categories && !cats.error
+  const isLoadingSearch = !search.posts && !search.topics && !search.error
 
   return (
-    <List isLoading={!state.posts && !state.topics && !state.error}>
-      {state.topics?.map((topic, index) => (
+    <List isLoading={isLoadingCategories || isLoadingSearch}>
+      {search.topics?.map((topic, index) => (
         <TopicListItem key={topic.id} topic={topic} index={index} />
       ))}
     </List>
