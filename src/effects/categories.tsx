@@ -21,11 +21,11 @@ export default function useCategories() {
         const results = await fetch(`${BASE_URL}/categories.json`).then(a => a.json())
 
         if (!isObject(results)) throw new Error("Unexpected response from categories listing")
-        if (!isObject(results.categories_list)) throw new Error("Unexpected response from categories listing: 2")
-        if (!isArray(results.categories_list.categories)) throw new Error("Unexpected response from categories listing: 3")
+        if (!isObject(results.category_list)) throw new Error("Unexpected response from categories listing: 2")
+        if (!isArray(results.category_list.categories)) throw new Error("Unexpected response from categories listing: 3")
 
         const categories: Category[] = results
-          .categories_list
+          .category_list
           .categories
           .reduce((acc: Category[], a: unknown) => isCategory(a) ? [ ...acc, a ] : acc, [])
 
