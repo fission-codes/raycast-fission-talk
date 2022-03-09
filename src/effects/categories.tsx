@@ -37,12 +37,18 @@ export default function useCategories() {
         if (!isObject(results.category_list)) throw new Error("Unexpected response from categories listing: 2")
         if (!isArray(results.category_list.categories)) throw new Error("Unexpected response from categories listing: 3")
 
+        const processCat = (acc: Record<string, Category>, a: unknown): Record<string, Category> => {
+          if (isCategory(a)) {
+            return (a.subcategory_list || []).reduce(processCat, { ...acc, [ a.id.toString() ]: a })
+          } else {
+            return acc
+          }
+        }
+
         const categories: Record<string, Category> = results
           .category_list
           .categories
-          .reduce((acc: Record<string, Category>, a: unknown) => {
-            return isCategory(a) ? { ...acc, [ a.id.toString() ]: a } : acc
-          }, {})
+          .reduce(processCat, {})
 
         setState({ categories })
 

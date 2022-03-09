@@ -16,7 +16,7 @@ export type Category = {
   description_excerpt: string
 
   subcategory_ids?: string[]
-  subcategory_list?: string[]
+  subcategory_list?: Category[]
 
   uploaded_logo?: string
   uploaded_background?: string
