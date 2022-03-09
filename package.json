@@ -9,9 +9,34 @@
   "commands": [
     {
       "name": "topics",
-      "title": "Topics",
+      "title": "Latest Topics",
       "description": "Lists the topics by date",
       "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "api_key",
+      "title": "API Key",
+      "description": "A Discourse API key. By default only public data is used, setting up an API key will allow the extension access to private information. The API key also unlocks the full potential of the Discourse API.",
+      "type": "password",
+      "required": false
+    },
+    {
+      "name": "api_username",
+      "title": "Username",
+      "description": "Your Discourse username. In addition to the API key, this is also needed to retrieve non-public items.",
+      "type": "textfield",
+      "required": false
+    },
+    {
+      "name": "enable_tasks",
+      "title": "Tasks",
+      "description": "Wether or not to include tasks.",
+      "type": "checkbox",
+      "required": false,
+      "default": false,
+      "label": "Show tasks"
     }
   ],
   "dependencies": {

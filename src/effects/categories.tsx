@@ -1,7 +1,9 @@
 import fetch from "cross-fetch"
+import { getPreferenceValues } from "@raycast/api"
 import { useEffect, useState } from "react"
 
 import { BASE_URL } from "../common/url"
+import { Preferences } from "../units/preferences"
 import { isCategory, Category } from "../units/category"
 import { isArray, isObject } from "../common/type-checks"
 
@@ -18,7 +20,18 @@ export default function useCategories() {
   useEffect(() => {
     async function categories() {
       try {
-        const results = await fetch(`${BASE_URL}/categories.json`).then(a => a.json())
+        const preferences = getPreferenceValues<Preferences>()
+        const results = await fetch(
+          `${BASE_URL}/categories.json?include_subcategories=true`,
+          {
+            headers: {
+              "Api-Key": preferences.api_key || "",
+              "Api-Username": preferences.api_username || ""
+            }
+          }
+        ).then(
+          a => a.json()
+        )
 
         if (!isObject(results)) throw new Error("Unexpected response from categories listing")
         if (!isObject(results.category_list)) throw new Error("Unexpected response from categories listing: 2")
