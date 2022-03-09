@@ -1,14 +1,21 @@
 import { List, showToast, Toast } from "@raycast/api"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { TopicListItem } from "./components/TopicListItem"
 import useCategories from "./effects/categories"
-import useSearch from "./effects/search"
+import useSearch, { Query } from "./effects/search"
+
+
+type State = {
+  query?: Query
+}
 
 
 export default function Command() {
+  const [ state, setState ] = useState<State>({})
+
   const cats = useCategories()
-  const search = useSearch()
+  const search = useSearch(state.query)
 
   useEffect(() => {
     if (cats.error) {
@@ -30,9 +37,13 @@ export default function Command() {
   const isLoadingSearch = !search.posts && !search.topics && !search.error
 
   return (
-    <List isLoading={isLoadingCategories || isLoadingSearch}>
+    <List
+      isLoading={isLoadingCategories || isLoadingSearch}
+      throttle={true}
+      onSearchTextChange={term => setState({ query: { term } })}
+    >
       {search.topics?.map((topic, index) => (
-        <TopicListItem key={topic.id} topic={topic} index={index} />
+        <TopicListItem key={topic.id} index={index} {...{ topic, categories: cats.categories || {} }} />
       ))}
     </List>
   )

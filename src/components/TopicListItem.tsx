@@ -1,18 +1,22 @@
-import { ActionPanel, List, Action } from "@raycast/api"
+import { Action, ActionPanel, Color, Icon, List } from "@raycast/api"
+import { DateTime } from "luxon"
 
 import { BASE_URL } from "../common/url"
+import { Category } from "../units/category"
 import { Topic } from "../units/topic"
 
 
-export function TopicListItem(props: { topic: Topic; index: number }) {
-  const { topic } = props
+export function TopicListItem(props: { categories: Record<string, Category>, topic: Topic; index: number }) {
+  const { categories, topic } = props
+  const category = categories[ topic.category_id.toString() ]
 
   return (
     <List.Item
-      icon={"🧺"}
+      icon={{ source: Icon.Circle, tintColor: category?.color ? `#${category?.color}` : Color.SecondaryText }}
       title={topic.title}
-      subtitle={""}
-      accessoryTitle={""}
+      subtitle={undefined}
+      // accessoryIcon={{ source: Icon.Calendar }}
+      accessoryTitle={DateTime.fromISO(topic.created_at).toLocaleString(DateTime.DATE_FULL)}
       actions={<Actions topic={topic} />}
     />
   );

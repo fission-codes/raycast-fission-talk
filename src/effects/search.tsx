@@ -7,7 +7,9 @@ import { isTopic, Topic } from "../units/topic"
 import { isArray, isObject } from "../common/type-checks"
 
 
-export type Query = {}
+export type Query = {
+  term?: string
+}
 
 
 type State = {
@@ -23,7 +25,7 @@ export default function useSearch(query?: Query) {
   useEffect(() => {
     async function search() {
       try {
-        const q = "after:2015-01-01 order:latest"
+        const q = `${query?.term ? query?.term + " " : ""}after:2015-01-01 order:latest`
         const results = await fetch(`${BASE_URL}/search.json?q=${encodeURIComponent(q)}`).then(a => a.json())
 
         if (!isObject(results)) throw new Error("Unexpected response from search")
@@ -45,7 +47,7 @@ export default function useSearch(query?: Query) {
     }
 
     search()
-  }, [])
+  }, [ query?.term ])
 
   return state
 }

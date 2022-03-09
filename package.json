@@ -8,23 +8,19 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "latest-topics",
-      "title": "Latest topics",
-      "description": "Lists the latest topics",
-      "mode": "view"
-    },
-    {
-      "name": "search-topics",
-      "title": "Search topics",
-      "description": "Searches topics by title",
+      "name": "topics",
+      "title": "Topics",
+      "description": "Lists the topics by date",
       "mode": "view"
     }
   ],
   "dependencies": {
     "@raycast/api": "^1.29.1",
-    "cross-fetch": "^3.1.5"
+    "cross-fetch": "^3.1.5",
+    "luxon": "^2.3.1"
   },
   "devDependencies": {
+    "@types/luxon": "^2.3.0",
     "@types/node": "~16.10.0",
     "@types/react": "^17.0.28",
     "@typescript-eslint/eslint-plugin": "^5.0.0",

@@ -7,7 +7,7 @@ import { isArray, isObject } from "../common/type-checks"
 
 
 type State = {
-  categories?: Category[]
+  categories?: Record<string, Category>
   error?: Error
 }
 
@@ -24,10 +24,12 @@ export default function useCategories() {
         if (!isObject(results.category_list)) throw new Error("Unexpected response from categories listing: 2")
         if (!isArray(results.category_list.categories)) throw new Error("Unexpected response from categories listing: 3")
 
-        const categories: Category[] = results
+        const categories: Record<string, Category> = results
           .category_list
           .categories
-          .reduce((acc: Category[], a: unknown) => isCategory(a) ? [ ...acc, a ] : acc, [])
+          .reduce((acc: Record<string, Category>, a: unknown) => {
+            return isCategory(a) ? { ...acc, [ a.id.toString() ]: a } : acc
+          }, {})
 
         setState({ categories })
 
