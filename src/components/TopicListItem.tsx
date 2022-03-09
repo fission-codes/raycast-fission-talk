@@ -6,9 +6,13 @@ import { Category } from "../units/category"
 import { Topic } from "../units/topic"
 
 
+const CURRENT_YEAR = DateTime.now().year
+
+
 export function TopicListItem(props: { categories: Record<string, Category>, topic: Topic; index: number }) {
   const { categories, topic } = props
   const category = categories[ topic.category_id.toString() ]
+  const datetime = DateTime.fromISO(topic.created_at)
 
   return (
     <List.Item
@@ -16,7 +20,11 @@ export function TopicListItem(props: { categories: Record<string, Category>, top
       title={topic.title}
       subtitle={undefined}
       // accessoryIcon={{ source: Icon.Calendar }}
-      accessoryTitle={DateTime.fromISO(topic.created_at).toLocaleString(DateTime.DATE_FULL)}
+      accessoryTitle={
+        datetime.year === CURRENT_YEAR
+          ? datetime.toLocaleString({ month: "short", day: "numeric" })
+          : datetime.toLocaleString(DateTime.DATE_MED)
+      }
       actions={<Actions topic={topic} />}
     />
   );
