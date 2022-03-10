@@ -3,7 +3,7 @@ import { getPreferenceValues } from "@raycast/api"
 import { useEffect, useState } from "react"
 
 import { BASE_URL } from "../common/url"
-import { Preferences } from "../units/preferences"
+import { Preferences, possiblyAuthHeaders } from "../units/preferences"
 import { isPost, Post } from "../units/post"
 import { isTopic, Topic } from "../units/topic"
 import { isArray, isObject } from "../common/type-checks"
@@ -32,12 +32,7 @@ export default function useSearch(query?: Query) {
 
         const results = await fetch(
           `${BASE_URL}/search.json?q=${encodeURIComponent(q)}`,
-          {
-            headers: {
-              "Api-Key": preferences.api_key || "",
-              "Api-Username": preferences.api_username || ""
-            }
-          }
+          { headers: possiblyAuthHeaders() }
         ).then(
           a => a.json()
         )
