@@ -31,20 +31,14 @@ export function TopicListItem(props: { categories: Record<string, Category>, top
 }
 
 function Actions({ topic }: { topic: Topic }) {
+  const url = `${BASE_URL}/t/${topic.slug}`
+
   return (
-    <ActionPanel title={"TODO"}>
+    <ActionPanel>
       <ActionPanel.Section>
-        <Action.OpenInBrowser url={`${BASE_URL}/t/${topic.slug}`} />
+        <Action.OpenInBrowser url={url} />
+        <Action.CopyToClipboard content={url} title="Copy Link" />
       </ActionPanel.Section>
-      {/* <ActionPanel.Section>
-        {props.item.link && (
-          <Action.CopyToClipboard
-            content={props.item.link}
-            title="Copy Link"
-            shortcut={{ modifiers: [ "cmd" ], key: "." }}
-          />
-        )}
-      </ActionPanel.Section> */}
     </ActionPanel>
-  );
+  )
 }
