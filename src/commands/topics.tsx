@@ -1,9 +1,9 @@
-import { List, showToast, Toast } from "@raycast/api"
+import { Action, ActionPanel, List, showToast, Toast } from "@raycast/api"
 import { useEffect, useState } from "react"
 
-import { TopicListItem } from "./components/TopicListItem"
-import useCategories from "./effects/categories"
-import useSearch, { Query } from "./effects/search"
+import { TopicListItem } from "../components/TopicListItem"
+import useCategories from "../effects/categories"
+import useSearch, { Query } from "../effects/search"
 
 
 type State = {
@@ -38,13 +38,26 @@ export default function Command() {
 
   return (
     <List
+      actions={<Actions />}
       isLoading={isLoadingCategories || isLoadingSearch}
-      throttle={true}
       onSearchTextChange={term => setState({ query: { term } })}
+      throttle={true}
     >
       {search.topics?.map((topic, index) => (
         <TopicListItem key={topic.id} index={index} {...{ topic, categories: cats.categories || {} }} />
       ))}
     </List>
+  )
+}
+
+
+
+// ㊙️
+
+
+function Actions() {
+  return (
+    <ActionPanel title={"List actions"}>
+    </ActionPanel>
   )
 }

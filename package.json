@@ -8,7 +8,7 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "topics",
+      "name": "commands/topics",
       "title": "Latest Topics",
       "description": "Lists the topics by date",
       "mode": "view"
