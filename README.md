@@ -14,7 +14,8 @@
 
 ```bash
 npm install
+# `Import Extension` in Raycast
 npm run dev
-# open raycast
+# Use extension in Raycast
 ```
 More info on the [Raycast docs](https://developers.raycast.com/basics/contribute-to-an-extension#develop-the-extension).
