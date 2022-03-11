@@ -8,3 +8,13 @@
 [![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes)
 [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq)
 [![Discourse](https://img.shields.io/discourse/https/talk.fission.codes/topics)](https://talk.fission.codes)
+
+
+## Development
+
+```bash
+npm install
+npm run dev
+# open raycast
+```
+More info on the [Raycast docs](https://developers.raycast.com/basics/contribute-to-an-extension#develop-the-extension).
