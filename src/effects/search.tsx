@@ -33,9 +33,6 @@ export default function useSearch(query?: Query, tagIds?: string[]) {
         let q = `${query?.term ? query?.term + " " : ""}after:2015-01-01 order:latest`
         if (tagIds.length) q = `${q} tags:${tagIds.join(",")}`
 
-        console.log(JSON.stringify(tagIds))
-        console.log(q)
-
         const results = await fetch(
           `${BASE_URL}/search.json?q=${encodeURIComponent(q)}`,
           { headers: possiblyAuthHeaders() }
