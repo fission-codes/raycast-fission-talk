@@ -2,11 +2,11 @@ import { Action, ActionPanel, List, showToast, Toast } from "@raycast/api"
 import { DateTime } from "luxon"
 import { useEffect, useState } from "react"
 
-import { Tag } from "../units/tag"
-import { TopicListItem } from "../components/TopicListItem"
-import useCategories from "../effects/categories"
-import useSearch, { Query } from "../effects/search"
-import useTags from "../effects/tags"
+import { Tag } from "./units/tag"
+import { TopicListItem } from "./components/TopicListItem"
+import useCategories from "./effects/categories"
+import useSearch, { Query } from "./effects/search"
+import useTags from "./effects/tags"
 
 
 type State = {
