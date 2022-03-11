@@ -21,14 +21,20 @@ type State = {
 }
 
 
-export default function useSearch(query?: Query) {
+export default function useSearch(query?: Query, tagIds?: string[]) {
   const [ state, setState ] = useState<State>({})
 
   useEffect(() => {
     async function search() {
       try {
         const preferences = getPreferenceValues<Preferences>()
-        const q = `${query?.term ? query?.term + " " : ""}after:2015-01-01 order:latest`
+        tagIds = (tagIds || []).filter(t => t.length)
+
+        let q = `${query?.term ? query?.term + " " : ""}after:2015-01-01 order:latest`
+        if (tagIds.length) q = `${q} tags:${tagIds.join(",")}`
+
+        console.log(JSON.stringify(tagIds))
+        console.log(q)
 
         const results = await fetch(
           `${BASE_URL}/search.json?q=${encodeURIComponent(q)}`,
@@ -58,7 +64,7 @@ export default function useSearch(query?: Query) {
     }
 
     search()
-  }, [ query?.term ])
+  }, [ query?.term, tagIds ])
 
   return state
 }
