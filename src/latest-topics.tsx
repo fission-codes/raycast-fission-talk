@@ -2,7 +2,8 @@ import { Action, ActionPanel, List, showToast, Toast } from "@raycast/api"
 import { DateTime } from "luxon"
 import { useEffect, useState } from "react"
 
-import { Tag } from "./units/tag"
+import { Category } from "./units/category"
+import { Topic } from "./units/topic"
 import { TopicListItem } from "./components/TopicListItem"
 import useCategories from "./effects/categories"
 import useSearch, { Query } from "./effects/search"
@@ -48,6 +49,17 @@ export default function Command() {
   const isLoadingSearch = !search.posts && !search.topics && !search.error
   const isLoadingTags = !tags.tags && !tags.error
 
+  const [ unseenTopics, topics ] = (search.topics || []).reduce(
+    ([ accU, accT ]: [ Topic[], Topic[] ], topic: Topic): [ Topic[], Topic[] ] => {
+      return topic.unseen
+        ? [ [ ...accU, topic ], accT ]
+        : [ accU, [ ...accT, topic ] ]
+    },
+    [ [], [] ]
+  )
+
+  const categories = cats.categories || {}
+
   return (
     <List
       actions={<Actions />}
@@ -71,13 +83,12 @@ export default function Command() {
       }
       throttle={true}
     >
-      {search.topics?.map((topic, index) => (
-        <TopicListItem
-          key={topic.id}
-          index={index}
-          {...{ topic, categories: cats.categories || {} }}
-        />
-      ))}
+      <List.Section title="Unseen">
+        {unseenTopics.map(renderTopic(categories))}
+      </List.Section>
+      <List.Section title={unseenTopics.length ? "Seen" : undefined}>
+        {topics.map(renderTopic(categories))}
+      </List.Section>
     </List>
   )
 }
@@ -92,4 +103,13 @@ function Actions() {
     <ActionPanel title={"List actions"}>
     </ActionPanel>
   )
+}
+
+
+function renderTopic(categories: Record<string, Category>) {
+  return (topic: Topic, index: number) => <TopicListItem
+    key={topic.id}
+    index={index}
+    {...{ topic, categories: categories }}
+  />
 }

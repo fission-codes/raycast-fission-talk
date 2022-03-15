@@ -30,9 +30,11 @@ export default function useSearch(query?: Query, tagIds?: string[]) {
         const preferences = getPreferenceValues<Preferences>()
         tagIds = (tagIds || []).filter(t => t.length)
 
+        // Build query
         let q = `${query?.term ? query?.term + " " : ""}after:2015-01-01 order:latest min_posts:0`
         if (tagIds.length) q = `${q} tags:${tagIds.join(",")}`
 
+        // Fetch results
         const results = await fetch(
           `${BASE_URL}/search.json?q=${encodeURIComponent(q)}`,
           { headers: possiblyAuthHeaders() }
@@ -42,6 +44,7 @@ export default function useSearch(query?: Query, tagIds?: string[]) {
 
         if (!isObject(results)) throw new Error("Unexpected response from search")
 
+        // Type check and extract data
         const posts: Post[] = isArray(results.posts)
           ? results.posts.reduce((acc: Post[], a: unknown) => isPost(a) ? [ ...acc, a ] : acc, [])
           : []
@@ -52,6 +55,7 @@ export default function useSearch(query?: Query, tagIds?: string[]) {
           }, [])
           : []
 
+        // Fin
         setState({ posts, topics })
 
       } catch (error) {
