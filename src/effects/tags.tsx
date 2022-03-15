@@ -26,6 +26,7 @@ export default function useTags() {
           a => a.json()
         )
 
+        if (results.errors) throw new Error(results.errors[ 0 ])
         if (!isObject(results)) throw new Error("Unexpected response from tags listing")
         if (!isArray(results.tags)) throw new Error("Unexpected response from tags listing: 2")
 

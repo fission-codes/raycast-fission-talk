@@ -42,6 +42,7 @@ export default function useSearch(query?: Query, tagIds?: string[]) {
           a => a.json()
         )
 
+        if (results.errors) throw new Error(results.errors[ 0 ])
         if (!isObject(results)) throw new Error("Unexpected response from search")
 
         // Type check and extract data

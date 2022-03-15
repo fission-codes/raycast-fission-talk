@@ -26,6 +26,10 @@ export default function useCategories() {
           a => a.json()
         )
 
+        if (results.errors) {
+          throw new Error(results.errors[ 0 ])
+        }
+
         if (!isObject(results)) throw new Error("Unexpected response from categories listing")
         if (!isObject(results.category_list)) throw new Error("Unexpected response from categories listing: 2")
         if (!isArray(results.category_list.categories)) throw new Error("Unexpected response from categories listing: 3")
