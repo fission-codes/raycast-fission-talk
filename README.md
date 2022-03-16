@@ -12,10 +12,9 @@
 
 ## Development
 
-```bash
-npm install
-# `Import Extension` in Raycast
-npm run dev # or: npm run build
-# Use extension in Raycast
-```
+1. Import extension in Raycast, and point to this directory.
+2. In this directory, run `npm install && npm run build`.
+3. Use extension in Raycast.
+
 More info on the [Raycast docs](https://developers.raycast.com/basics/contribute-to-an-extension#develop-the-extension).
+To watch for code changes, use `npm run dev` instead.
